@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+:root {
+    --primary: #0663AF;
+    --text-on-primary: #FFFFFF;
+    --red: #B91111;
+    --red-hover: #d34343;
+    --red-light: #E87979;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    vertical-align: baseline;
+    background: transparent;
+}
+
+#header {
+    background-color: var(--primary);
+    font-family: 'Inter', sans-serif;
+    color: var(--text-on-primary);
+    position: relative;
+}
+
+#header h1 {
+    font-weight: 300;
+    padding: 0.65em;
+    display: inline-block;
+}
+
+#userBlock {
+    display: inline-block;
+    position: absolute;
+    right: 2em;
+    top: 50%;
+}
+
+#userBlock button {
+    color: inherit;
+    background-color: var(--red);
+    padding: 0.2em 1em;
+    border-radius: 0.5em;
+    margin-left: 1em;
+    cursor: pointer;
+    font-size: 100%;
+}
+
+#userBlock button:hover {
+    background-color: var(--red-hover);
+}
