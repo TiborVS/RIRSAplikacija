@@ -50,3 +50,101 @@
 #userBlock button:hover {
     background-color: var(--red-hover);
 }
+
+#container {
+    width: 80%;
+    margin: auto;
+    padding: 2em;
+}
+
+table {
+    width: 100%;
+    margin: auto;
+    border-collapse: collapse;
+    font-family: 'Inter', sans-serif;
+    table-layout: fixed;
+}
+
+thead {
+    color: #D6D6D6;
+    background-color: #595151;
+    font-size: 120%;
+    text-align: left;
+}
+
+table th {
+    border-right: 1px solid #FFFFFF;
+    font-weight: normal;
+    padding: 0.5em;
+}
+
+table th:nth-last-child(2) { /* clears border between status and edit button column in header */
+    border-right: none;
+}
+
+table td {
+    font-weight: normal;
+    padding: 0.5em;
+    vertical-align: middle;
+}
+
+tr:nth-child(even) {
+    background-color: #F3F3F3;
+}
+
+th.title {
+    width: 15%;
+}
+
+th.description {
+    width: 45%;
+}
+
+th.cost {
+    width: 20%;
+}
+
+th.status {
+    width: 10%;
+}
+
+td.title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+td.description {
+    color: #505050;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 50%;
+}
+
+td.cost {
+    text-align: end;
+}
+
+span.status {
+    padding: 0.2em 0.5em;
+    border-radius: 0.75em;
+}
+
+span.status_ACCEPTED {
+    background-color: #81C889;
+}
+
+span.status_PENDING {
+    background-color: #FFD95D;
+}
+
+span.status_DENIED {
+    background-color: #E87979;
+}
+
+img.edit {
+    width: 1.5em;
+    height: 1.5em;
+    filter: invert(30%) sepia(5%) saturate(629%) hue-rotate(314deg) brightness(96%) contrast(85%); /* calculated on https://isotropic.co/tool/hex-color-to-css-filter/ */
+}
