@@ -1,12 +1,13 @@
 import '../styles/style.css'
 
-export default function RequestTable({ requests }) {
+export default function RequestTable({ requests, includeUsers }) {
     const requestEntries = requests.map(request => {
         return <tr key={request.id} className="requestRow">
-            <td className="title">{request.title}</td>
-            <td className="description">{request.description}</td>
-            <td className="cost">{request.cost}</td> {/* will need to be formatted at some point, since it probably won't be stored in pretty string form in db */}
-            <td className={"status " + "status_" + request.status}>
+            {includeUsers && <td className="user">{request.user}</td>}
+            <td className={"title" + (includeUsers ? " withUser" : "")}>{request.title}</td>
+            <td className={"description" + (includeUsers ? " withUser" : "")}>{request.description}</td>
+            <td className={"cost" + (includeUsers ? " withUser" : "")}>{request.cost}</td> {/* will need to be formatted at some point, since it probably won't be stored in pretty string form in db */}
+            <td className={"status " + "status_" + request.status + (includeUsers ? " withUser" : "")}>
                 <span className={"status " + "status_" + request.status}>
                     {request.status}
                 </span>
@@ -18,17 +19,18 @@ export default function RequestTable({ requests }) {
                 </a>
             </td>
         </tr>
-    })
+    });
 
     return (
         <table>
             <thead>
             <tr>
-                <th className="title">Title</th>
-                <th className="description">Description</th>
-                <th className="cost">Cost</th>
-                <th className="status">Status</th>
-                <th className="edit"></th>
+                {includeUsers && <th className="user">User</th>}
+                <th className={"title" + (includeUsers? " withUser" : "")}>Title</th>
+                <th className={"description" + (includeUsers? " withUser" : "")}>Description</th>
+                <th className={"cost" + (includeUsers? " withUser" : "")}>Cost</th>
+                <th className={"status" + (includeUsers? " withUser" : "")}>Status</th>
+                <th className={"edit" + (includeUsers? " withUser" : "")}></th>
             </tr>
             </thead>
             <tbody>

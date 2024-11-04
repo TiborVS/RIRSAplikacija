@@ -6,8 +6,9 @@ const serviceName = "[Service Name]"
 let username = "User12451235"
 
 class Request{
-  constructor(id, title, description, cost, status) {
+  constructor(id, user, title, description, cost, status) {
       this.id = id;
+      this.user = user;
       this.title = title;
       this.description = description;
       this.cost = cost;
@@ -19,25 +20,24 @@ function addRequestClickHandler() {
 
 }
 
-function UserRequestPage() {
+function AdminRequestPage() {
   const ipsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vitae faucibus eros, in congue nisi. Etiam id odio nec sapien aliquam feugiat nec id tellus. Etiam ornare vel quam et tincidunt."
   let requests = [];
   for (let i = 0; i < 20; i++) {
-    requests.push(new Request(i, "myTitle", ipsum, "100,00 EUR", "ACCEPTED"));
+    requests.push(new Request(i, "JohnSmith", "myTitle", ipsum, "100,00 EUR", "ACCEPTED"));
   }
 
   return (
     <>
-    <Header siteTitle={serviceName} username={username} isAdmin={false}/>
+    <Header siteTitle={serviceName} username={username} isAdmin={true}/>
     <div id="aboveTable">
-      <h1 id="tableHeader">My requests</h1>
-      <button id="addButton" onClick={addRequestClickHandler}><a href="request_form.html">New request</a></button>
+      <h1 id="tableHeader">All requests</h1>
     </div>
     <div id="container">
-      <RequestTable requests={requests} includeUsers={false} />
+      <RequestTable requests={requests} includeUsers={true} />
     </div>
     </>
   )
 }
 
-export default UserRequestPage
+export default AdminRequestPage
