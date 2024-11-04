@@ -4,7 +4,7 @@
     --primary: #0663AF;
     --text-on-primary: #FFFFFF;
     --red: #B91111;
-    --red-hover: #d34343;
+    --red-hover: #c83d3d;
     --red-light: #E87979;
 }
 
@@ -15,6 +15,11 @@
     outline: 0;
     vertical-align: baseline;
     background: transparent;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
 }
 
 #header {
@@ -51,10 +56,42 @@
     background-color: var(--red-hover);
 }
 
-#container {
+div#aboveTable {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
     width: 80%;
+    margin: 2em auto 0.5em auto;
+    position: relative;
+}
+
+div#aboveTable h1 {
+    font-weight: inherit;
+    display: inline;
+}
+
+button#addButton {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    color: var(--text-on-primary);
+    background-color: #3E8E47;
+    padding: 0.2em 1.5em;
+    border-radius: 0.5em;
+    cursor: pointer;
+    font-size: 100%;
+}
+
+button#addButton:hover {
+    background-color: #5daa66;
+}
+
+div#container {
+    width: 80%;
+    height: 70vh;
     margin: auto;
-    padding: 2em;
+    padding: 0 1em;
+    overflow: hidden;
+    overflow-y: scroll;
 }
 
 table {
