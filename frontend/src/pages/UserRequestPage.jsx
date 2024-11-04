@@ -28,13 +28,13 @@ function UserRequestPage() {
 
   return (
     <>
-    <Header siteTitle={serviceName} username={username}/>
+    <Header siteTitle={serviceName} username={username} isAdmin={false}/>
     <div id="aboveTable">
       <h1 id="tableHeader">My requests</h1>
       <button id="addButton" onClick={addRequestClickHandler}><a href="request_form.html">New request</a></button>
     </div>
     <div id="container">
-      <RequestTable requests={requests} />
+      <RequestTable requests={requests} includeUsers={false} />
     </div>
     </>
   )

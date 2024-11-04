@@ -35,6 +35,11 @@ a {
     display: inline-block;
 }
 
+#header h3 {
+    font-weight: 400;
+    display: inline;
+}
+
 #userBlock {
     display: inline-block;
     position: absolute;
@@ -143,6 +148,18 @@ th.cost {
 
 th.status {
     width: 10%;
+}
+
+th.user {
+    width: 10%;
+}
+
+th.title.withUser {
+    width: 10%;
+}
+
+th.description.withUser {
+    width: 38%;
 }
 
 td.title {
