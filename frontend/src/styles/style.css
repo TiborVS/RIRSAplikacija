@@ -1,0 +1,204 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+:root {
+    --primary: #0663AF;
+    --text-on-primary: #FFFFFF;
+    --red: #B91111;
+    --red-hover: #c83d3d;
+    --red-light: #E87979;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    vertical-align: baseline;
+    background: transparent;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+#header {
+    background-color: var(--primary);
+    font-family: 'Inter', sans-serif;
+    color: var(--text-on-primary);
+    position: relative;
+}
+
+#header h1 {
+    font-weight: 300;
+    padding: 0.65em;
+    display: inline-block;
+}
+
+#header h3 {
+    font-weight: 400;
+    display: inline;
+}
+
+#userBlock {
+    display: inline-block;
+    position: absolute;
+    right: 2em;
+    top: 50%;
+}
+
+#userBlock button {
+    color: inherit;
+    background-color: var(--red);
+    padding: 0.2em 1em;
+    border-radius: 0.5em;
+    margin-left: 1em;
+    cursor: pointer;
+    font-size: 100%;
+}
+
+#userBlock button:hover {
+    background-color: var(--red-hover);
+}
+
+div#aboveTable {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    width: 80%;
+    margin: 2em auto 0.5em auto;
+    position: relative;
+}
+
+div#aboveTable h1 {
+    font-weight: inherit;
+    display: inline;
+}
+
+button#addButton {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    color: var(--text-on-primary);
+    background-color: #3E8E47;
+    padding: 0.2em 1.5em;
+    border-radius: 0.5em;
+    cursor: pointer;
+    font-size: 100%;
+}
+
+button#addButton:hover {
+    background-color: #5daa66;
+}
+
+div#container {
+    width: 80%;
+    height: 70vh;
+    margin: auto;
+    padding: 0 1em;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+table {
+    width: 100%;
+    margin: auto;
+    border-collapse: collapse;
+    font-family: 'Inter', sans-serif;
+    table-layout: fixed;
+}
+
+thead {
+    color: #D6D6D6;
+    background-color: #595151;
+    font-size: 120%;
+    text-align: left;
+}
+
+table th {
+    border-right: 1px solid #FFFFFF;
+    font-weight: normal;
+    padding: 0.5em;
+}
+
+table th:nth-last-child(2) { /* clears border between status and edit button column in header */
+    border-right: none;
+}
+
+table td {
+    font-weight: normal;
+    padding: 0.5em;
+    vertical-align: middle;
+}
+
+tr:nth-child(even) {
+    background-color: #F3F3F3;
+}
+
+th.title {
+    width: 15%;
+}
+
+th.description {
+    width: 45%;
+}
+
+th.cost {
+    width: 20%;
+}
+
+th.status {
+    width: 10%;
+}
+
+th.user {
+    width: 10%;
+}
+
+th.title.withUser {
+    width: 10%;
+}
+
+th.description.withUser {
+    width: 38%;
+}
+
+td.title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+td.description {
+    color: #505050;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 50%;
+}
+
+td.cost {
+    text-align: end;
+}
+
+span.status {
+    padding: 0.2em 0.5em;
+    border-radius: 0.75em;
+}
+
+span.status_ACCEPTED {
+    background-color: #81C889;
+}
+
+span.status_PENDING {
+    background-color: #FFD95D;
+}
+
+span.status_DENIED {
+    background-color: #E87979;
+}
+
+img.edit {
+    width: 1.5em;
+    height: 1.5em;
+    filter: invert(30%) sepia(5%) saturate(629%) hue-rotate(314deg) brightness(96%) contrast(85%); /* calculated on https://isotropic.co/tool/hex-color-to-css-filter/ */
+}
