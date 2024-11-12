@@ -6,6 +6,9 @@
     --red: #B91111;
     --red-hover: #c83d3d;
     --red-light: #E87979;
+    --green: #3E8E47;
+    --green-hover: #5daa66;
+    --blue-hover: #2f87ce;
 }
 
 * {
@@ -79,7 +82,7 @@ button#addButton {
     right: 0;
     bottom: 0;
     color: var(--text-on-primary);
-    background-color: #3E8E47;
+    background-color: var(--green);
     padding: 0.2em 1.5em;
     border-radius: 0.5em;
     cursor: pointer;
@@ -87,7 +90,7 @@ button#addButton {
 }
 
 button#addButton:hover {
-    background-color: #5daa66;
+    background-color: var(--green-hover);
 }
 
 div#container {
@@ -99,7 +102,7 @@ div#container {
     overflow-y: scroll;
 }
 
-table {
+table.requestTable {
     width: 100%;
     margin: auto;
     border-collapse: collapse;
@@ -107,68 +110,68 @@ table {
     table-layout: fixed;
 }
 
-thead {
+table.requestTable thead {
     color: #D6D6D6;
     background-color: #595151;
     font-size: 120%;
     text-align: left;
 }
 
-table th {
+table.requestTable th {
     border-right: 1px solid #FFFFFF;
     font-weight: normal;
     padding: 0.5em;
 }
 
-table th:nth-last-child(2) { /* clears border between status and edit button column in header */
+table.requestTable th:nth-last-child(2) { /* clears border between status and edit button column in header */
     border-right: none;
 }
 
-table td {
+table.requestTable td {
     font-weight: normal;
     padding: 0.5em;
     vertical-align: middle;
 }
 
-tr:nth-child(even) {
+table.requestTable tr:nth-child(even) {
     background-color: #F3F3F3;
 }
 
-th.title {
+table.requestTable th.title {
     width: 15%;
 }
 
-th.description {
+table.requestTable th.description {
     width: 45%;
 }
 
-th.cost {
+table.requestTable th.cost {
     width: 20%;
 }
 
-th.status {
+table.requestTable th.status {
     width: 10%;
 }
 
-th.user {
+table.requestTable th.user {
     width: 10%;
 }
 
-th.title.withUser {
+table.requestTable th.title.withUser {
     width: 10%;
 }
 
-th.description.withUser {
+table.requestTable th.description.withUser {
     width: 38%;
 }
 
-td.title {
+table.requestTable td.title {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-td.description {
+table.requestTable td.description {
     color: #505050;
     white-space: nowrap;
     overflow: hidden;
@@ -176,7 +179,7 @@ td.description {
     max-width: 50%;
 }
 
-td.cost {
+table.requestTable td.cost {
     text-align: end;
 }
 
@@ -201,4 +204,198 @@ img.edit {
     width: 1.5em;
     height: 1.5em;
     filter: invert(30%) sepia(5%) saturate(629%) hue-rotate(314deg) brightness(96%) contrast(85%); /* calculated on https://isotropic.co/tool/hex-color-to-css-filter/ */
+}
+
+/* HOME PAGE */
+
+div#titleContainer, div#homePageButtons {
+    width: fit-content;
+    margin: auto;
+}
+
+div#titleContainer {
+    margin-top: 30vh;
+    margin-bottom: 3em;
+}
+
+div#titleContainer p {
+    width: fit-content;
+    margin: auto;
+}
+
+p#welcome {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 1.6em;
+}
+
+p#title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 2em;
+    color: var(--primary);
+}
+
+button.login, button.register {
+    margin: 0 1em;
+    color: var(--text-on-primary);
+    background-color: var(--primary);
+    padding: 0.2em 1.5em;
+    border-radius: 0.5em;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 1em;
+}
+
+button.login:hover, button.register:hover {
+    background-color: var(--blue-hover);
+}
+
+/* REGISTER PAGE */
+
+div#registerTitleContainer, div#registerFormContainer {
+    width: fit-content;
+    margin: auto;
+}
+
+div#registerTitleContainer {
+    margin-top: 20vh;
+    margin-bottom: 3em;
+}
+
+div#registerTitleContainer p {
+    width: fit-content;
+    margin: auto;
+}
+
+p#registerTitle {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 2em;
+    color: var(--primary);
+}
+
+p#registerSubtitle {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 2em;
+}
+
+#registerFormTable td {
+    padding: 0 0.5em;
+}
+
+#registerFormTable tr td:first-child {
+    text-align: end;
+}
+
+#registerForm label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 1em;
+}
+
+#registerForm input {
+    border: 2px solid black;
+    border-radius: 0.3em;
+    padding: 0.3em;
+    margin-bottom: 0.8em;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 0.9em;
+}
+
+button.confirmRegister {
+    color: var(--text-on-primary);
+    background-color: var(--primary);
+    padding: 0.2em 2.5em;
+    border-radius: 0.5em;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 1em;
+    margin-bottom: 1em;
+}
+
+#registerError{
+    width: 0;
+    color: var(--red);
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 0.8em;
+}
+
+/* LOGIN PAGE*/
+
+div#loginTitleContainer, div#loginFormContainer {
+    width: fit-content;
+    margin: auto;
+}
+
+div#loginTitleContainer {
+    margin-top: 20vh;
+    margin-bottom: 5em;
+}
+
+div#loginTitleContainer p {
+    width: fit-content;
+    margin: auto;
+}
+
+p#loginTitle {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 2em;
+    color: var(--primary);
+}
+
+p#loginSubtitle {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 2em;
+}
+
+#loginFormTable td {
+    padding: 0 0.5em;
+}
+
+#loginFormTable tr td:first-child {
+    text-align: end;
+}
+
+#loginForm label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 1em;
+}
+
+#loginForm input {
+    border: 2px solid black;
+    border-radius: 0.3em;
+    padding: 0.3em;
+    margin-bottom: 0.8em;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 0.9em;
+}
+
+button.confirmLogin {
+    color: var(--text-on-primary);
+    background-color: var(--primary);
+    padding: 0.2em 2.5em;
+    border-radius: 0.5em;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 1em;
+    margin-bottom: 1em;
+}
+
+#loginError{
+    width: 0;
+    color: var(--red);
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 0.8em;
 }
