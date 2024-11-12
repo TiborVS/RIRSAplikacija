@@ -22,7 +22,7 @@ export default function RequestTable({ requests, includeUsers }) {
     });
 
     return (
-        <table>
+        <table className="requestTable">
             <thead>
             <tr>
                 {includeUsers && <th className="user">User</th>}
