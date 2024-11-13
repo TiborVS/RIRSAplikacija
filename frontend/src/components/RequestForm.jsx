@@ -25,7 +25,7 @@ async function requestFormHandler(formData) {
         },
         method: "POST",
         body: JSON.stringify(requestBody)
-    }).then((res) => { console.log(res); })
+    }).then((res) => { console.log(res); window.location.replace("/user_requests.html"); })
     .catch((res) => { console.log(res); });
 }
 
@@ -55,10 +55,10 @@ export default function RequestForm({isEditing, editRequestData}) {
                 <span>EUR</span>
             </form>
             <div id="requestFormButtons">
-                <button className="requestCancel">Cancel</button>
+                <button className="requestCancel" onClick={() => {window.location.replace("/user_requests.html");}}>Cancel</button>
                 <button className="requestSubmit" form="requestForm" type="submit">{(isEditing ? "Edit request" : "Create request")}</button>
             </div>
-            <p className="requestFormError">Example error text example error text example error text  text example error  text example error  text example error </p>
+            <p className="requestFormError"></p>
         </div>
     );
 }

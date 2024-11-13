@@ -23,12 +23,12 @@ function LoginPage() {
                     <tr>
                         <td></td>
                         <td>
-                            <button className="confirmLogin">Log in</button>
+                            <button className="confirmLogin" type="button" onClick={() => { window.location.replace("/user_requests.html"); }}>Log in</button>
                         </td>
                     </tr>
                     <tr>
                         <td></td>
-                        <td id="loginError">Example error text Example error text Example error text Example error text</td>
+                        <td id="loginError"></td>
                     </tr>
                 </table>
             </form>

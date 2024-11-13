@@ -32,7 +32,7 @@ function RegisterPage() {
                     </tr>
                     <tr>
                         <td></td>
-                        <td id="registerError">Example error text Example error text Example error text Example error text</td>
+                        <td id="registerError"></td>
                     </tr>
                 </table>
             </form>
