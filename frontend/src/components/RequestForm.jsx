@@ -1,5 +1,34 @@
 import '../styles/style.css'
 
+async function requestFormHandler(formData) {
+    const title = formData.get("title");
+    const description = formData.get("description");
+    const extraInfo = formData.get("extraInfo");
+    const cost = formData.get("cost");
+    
+    // TODO: validation
+
+    const requestBody = {
+        title: title,
+        description: description,
+        cost: cost,
+        status: "pending",
+        user_id: "1"
+    }
+
+    console.log(requestBody);
+
+    fetch("http://localhost:8000/requests",{
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        method: "POST",
+        body: JSON.stringify(requestBody)
+    }).then((res) => { console.log(res); })
+    .catch((res) => { console.log(res); });
+}
+
 export default function RequestForm({isEditing, editRequestData}) {
     var title = "";
     var description = "";
@@ -14,7 +43,7 @@ export default function RequestForm({isEditing, editRequestData}) {
 
     return (
         <div id="requestFormContainer">
-            <form id="requestForm">
+            <form id="requestForm" action={requestFormHandler}>
                 <label htmlFor="requestFormTitle">Title</label>
                 <input type="text" name="title" id="requestFormTitle" placeholder="Enter the name of the item or service"/> <br />
                 <label htmlFor="requestFormDescription">Description</label>
@@ -22,12 +51,12 @@ export default function RequestForm({isEditing, editRequestData}) {
                 <label htmlFor="requestFormExtraInfo">Links & other info</label>
                 <textarea name="extraInfo" id="requestFormExtraInfo" placeholder="Add links to external sources or any relevant additional information">{info}</textarea> <br />
                 <label htmlFor="requestFormCost">Cost</label>
-                <input type="number" dir="rtl" step="0.01" name="cost" id="requestFormCost"/>
+                <input type="number" dir="rtl" name="cost" id="requestFormCost"/>
                 <span>EUR</span>
             </form>
             <div id="requestFormButtons">
                 <button className="requestCancel">Cancel</button>
-                <button className="requestSubmit">{(isEditing ? "Edit request" : "Create request")}</button>
+                <button className="requestSubmit" form="requestForm" type="submit">{(isEditing ? "Edit request" : "Create request")}</button>
             </div>
             <p className="requestFormError">Example error text example error text example error text  text example error  text example error  text example error </p>
         </div>
