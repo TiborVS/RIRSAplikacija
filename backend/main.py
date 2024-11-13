@@ -69,6 +69,18 @@ async def create_request(request: Request):
     result = await db.request.insert_one(request_dict)
     return {"_id": str(result.inserted_id)}
 
+# Get all Requests
+@app.get("/requests/")
+async def list_requests():
+    requests = await db.request.find({}).to_list()
+    if requests:
+        for request in requests:
+            request["_id"] = str(request["_id"])
+        return requests
+    else:
+        raise HTTPException(status_code=500, detail="Cannot get requests")
+
+
 # Read a Request
 @app.get("/requests/{request_id}")
 async def read_request(request_id: str):
