@@ -3,11 +3,24 @@ from pydantic import BaseModel, Field
 from motor.motor_asyncio import AsyncIOMotorClient
 from bson import ObjectId
 from typing import Optional
+from fastapi.middleware.cors import CORSMiddleware
 
 # Initialize FastAPI and MongoDB client
 app = FastAPI()
 client = AsyncIOMotorClient("mongodb+srv://admin:admin@ligilegend.eh2nx.mongodb.net/?retryWrites=true&w=majority&appName=ligilegend")
 db = client.bazica
+
+origins = [
+    "http://localhost:5173"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 # Define a custom ObjectId type for Pydantic
 class PydanticObjectId(ObjectId):
@@ -52,7 +65,7 @@ class User(BaseModel):
 # Create a Request
 @app.post("/requests/")
 async def create_request(request: Request):
-    request_dict = request.dict(by_alias=True, exclude_unset=True)
+    request_dict = request.model_dump(by_alias=True, exclude_unset=True)
     result = await db.request.insert_one(request_dict)
     return {"_id": str(result.inserted_id)}
 
@@ -69,7 +82,7 @@ async def read_request(request_id: str):
 # Update a Request
 @app.put("/requests/{request_id}")
 async def update_request(request_id: str, updated_request: Request):
-    updated_request_dict = updated_request.dict(by_alias=True, exclude_unset=True)
+    updated_request_dict = updated_request.model_dump(by_alias=True, exclude_unset=True)
     result = await db.request.update_one({"_id": ObjectId(request_id)}, {"$set": updated_request_dict})
     if result.modified_count == 1:
         return {"message": "Request updated successfully"}
@@ -90,7 +103,7 @@ async def delete_request(request_id: str):
 # Create a User
 @app.post("/users/")
 async def create_user(user: User):
-    user_dict = user.dict(by_alias=True, exclude_unset=True)
+    user_dict = user.model_dump(by_alias=True, exclude_unset=True)
     result = await db.users.insert_one(user_dict)
     return {"_id": str(result.inserted_id)}
 
@@ -107,7 +120,7 @@ async def read_user(user_id: str):
 # Update a User
 @app.put("/users/{user_id}")
 async def update_user(user_id: str, updated_user: User):
-    updated_user_dict = updated_user.dict(by_alias=True, exclude_unset=True)
+    updated_user_dict = updated_user.model_dump(by_alias=True, exclude_unset=True)
     result = await db.users.update_one({"_id": ObjectId(user_id)}, {"$set": updated_user_dict})
     if result.modified_count == 1:
         return {"message": "User updated successfully"}
