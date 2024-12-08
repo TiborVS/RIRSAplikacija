@@ -4,11 +4,25 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from bson import ObjectId
 from typing import Optional
 from fastapi.middleware.cors import CORSMiddleware
+from os import environ
+from dotenv import load_dotenv
 
-# Initialize FastAPI and MongoDB client
+load_dotenv()
+
+db_user = environ.get("DB_USER", False)
+db_pass = environ.get("DB_PASS", False)
+if not db_user:
+    raise ValueError("DB_USER environment variable must be set.")
+if not db_pass:
+    raise ValueError("DB_PASS envrionment variable must be set.") 
+db_conn_string = f"mongodb+srv://{db_user}:{db_pass}@ligilegend.eh2nx.mongodb.net/?retryWrites=true&w=majority&appName=ligilegend"
+
 app = FastAPI()
-client = AsyncIOMotorClient("mongodb+srv://admin:admin@ligilegend.eh2nx.mongodb.net/?retryWrites=true&w=majority&appName=ligilegend")
+client = AsyncIOMotorClient(db_conn_string)
 db = client.bazica
+
+if (environ.get("TEST", "false") == "true"):
+    db = client.test_tibor
 
 origins = [
     "http://localhost:5173"
@@ -111,6 +125,17 @@ async def delete_request(request_id: str):
         raise HTTPException(status_code=404, detail="Request not found")
 
 # CRUD Operations for User
+
+# Get all Users
+@app.get("/users/")
+async def list_users():
+    users = await db.users.find({}).to_list()
+    if users:
+        for user in users:
+            user["_id"] = str(user["_id"])
+        return users
+    else:
+        raise HTTPException(status_code=500, detail="Cannot get users")
 
 # Create a User
 @app.post("/users/")
