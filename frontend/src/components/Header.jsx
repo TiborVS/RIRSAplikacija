@@ -1,6 +1,3 @@
-
-import '../styles/style.css'
-
 export default function Header({siteTitle, username, isAdmin}) {
 
     function logOutClickHandler() {

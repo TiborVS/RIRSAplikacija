@@ -1,5 +1,3 @@
-import '../styles/style.css'
-
 export default function RequestTable({ requests, includeUsers }) {
     const requestEntries = requests.map(request => {
         return <tr key={request.id} className="requestRow">

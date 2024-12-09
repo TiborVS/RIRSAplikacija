@@ -1,7 +1,6 @@
 import Header from '../components/Header.jsx'
 import RequestTable from '../components/RequestTable.jsx'
 import { useEffect, useState } from 'react'
-import '../styles/style.css'
 
 const serviceName = "[Service Name]"
 let username = "User12451235"

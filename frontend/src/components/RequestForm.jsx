@@ -1,5 +1,3 @@
-import '../styles/style.css'
-
 async function requestFormHandler(formData) {
     const title = formData.get("title");
     const description = formData.get("description");

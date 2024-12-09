@@ -1,5 +1,3 @@
-import '../styles/style.css'
-
 const serviceName = "[Service Name]";
 
 function HomePage() {
