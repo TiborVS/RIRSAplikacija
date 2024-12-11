@@ -4,12 +4,11 @@ export default function RequestTable({ requests, includeUsers }) {
             {includeUsers && <td className="user">{request.user}</td>}
             <td className={"title" + (includeUsers ? " withUser" : "")}>{request.title}</td>
             <td className={"description" + (includeUsers ? " withUser" : "")}>{request.description}</td>
-            <td className={"cost" + (includeUsers ? " withUser" : "")}>{request.cost + " EUR"} </td> {/* will need to be formatted at some point, since it probably won't be stored in pretty string form in db */}
+            <td className={"cost" + (includeUsers ? " withUser" : "")}>{request.cost + " EUR"} </td>
             <td className={"status " + "status_" + request.status.toUpperCase() + (includeUsers ? " withUser" : "")}>
                 <span className={"status " + "status_" + request.status.toUpperCase()}>
                     {request.status.toUpperCase()}
                 </span>
-                    
             </td>
             <td className="edit">
                 <a className="edit" href={"edit.html?id=" + request.id}>
