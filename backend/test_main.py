@@ -132,6 +132,7 @@ async def test_post_user(client):
     response = client.post("/users/", json=doc)
     assert response.status_code == 200
     assert "_id" in response.json()
+    assert "token" in response.json()
 
     cleanup_client = AsyncIOMotorClient(db_conn_string)
     db = cleanup_client.test_tibor
@@ -171,3 +172,7 @@ async def test_delete_user(client):
     response = client.delete(f"/users/{id}")
     assert response.status_code == 200
     assert response.json()["message"] == "User deleted successfully"
+
+@pytest.mark.asyncio
+async def test_login_user_succeeds(client):
+    raise NotImplementedError

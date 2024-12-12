@@ -1,3 +1,4 @@
+from datetime import datetime, timezone, timedelta
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -6,15 +7,20 @@ from typing import Optional
 from fastapi.middleware.cors import CORSMiddleware
 from os import environ
 from dotenv import load_dotenv
+import bcrypt
+import jwt
 
 load_dotenv()
 
 db_user = environ.get("DB_USER", False)
 db_pass = environ.get("DB_PASS", False)
+jwt_secret = environ.get("JWT_SECRET", False)
 if not db_user:
     raise ValueError("DB_USER environment variable must be set.")
 if not db_pass:
-    raise ValueError("DB_PASS envrionment variable must be set.") 
+    raise ValueError("DB_PASS envrionment variable must be set.")
+if not jwt_secret:
+    raise ValueError("JWT_SECRET envrionment variable must be set.")
 db_conn_string = f"mongodb+srv://{db_user}:{db_pass}@ligilegend.eh2nx.mongodb.net/?retryWrites=true&w=majority&appName=ligilegend"
 
 app = FastAPI()
@@ -65,8 +71,8 @@ class Request(BaseModel):
 class User(BaseModel):
     username: str
     password: str
-    isAdmin: bool
-    email: str
+    isAdmin: bool | None = None
+    email: str | None
 
 
     class Config:
@@ -141,8 +147,23 @@ async def list_users():
 @app.post("/users/")
 async def create_user(user: User):
     user_dict = user.model_dump(by_alias=True, exclude_unset=True)
+    user_dict["isAdmin"] = False
+    plain_password = user_dict["password"]
+    plain_password = plain_password.encode("utf-8")
+    hashed_password = bcrypt.hashpw(plain_password, bcrypt.gensalt())
+    user_dict["password"] = hashed_password
     result = await db.users.insert_one(user_dict)
-    return {"_id": str(result.inserted_id)}
+    if result.acknowledged:
+        token = jwt.encode({
+            "user_id": str(result.inserted_id),
+            "username": user_dict["username"],
+            "iat": datetime.now(tz=timezone.utc),
+            "exp": datetime.now(tz=timezone.utc) + timedelta(weeks=1)
+        }, jwt_secret)
+        return {"_id": str(result.inserted_id), "token": token}
+    else:
+        raise HTTPException(status_code=500, detail="Error writing to database")
+    
 
 # Read a User
 @app.get("/users/{user_id}")
@@ -172,3 +193,22 @@ async def delete_user(user_id: str):
         return {"message": "User deleted successfully"}
     else:
         raise HTTPException(status_code=404, detail="User not found")
+
+# Login user
+@app.post("/users/login/")
+async def login_user(user: User):
+    user_dict = user.model_dump(by_alias=True, exclude_unset=True)
+    user_in_db = await db.users.find_one({"username": user_dict["username"]})
+    if user_in_db:
+        if bcrypt.checkpw(user_dict["password"], user_in_db["password"]):
+            token = jwt.encode({
+            "user_id": str(user_in_db["_id"]),
+            "username": user_dict["username"],
+            "iat": datetime.now(tz=timezone.utc),
+            "exp": datetime.now(tz=timezone.utc) + timedelta(weeks=1)
+            }, jwt_secret)
+            return {"token": token}
+        else:
+            raise HTTPException(status_code=401, detail="Invalid password")
+    else:
+        raise HTTPException(status_code=404, detail="Username doesn't exist")
