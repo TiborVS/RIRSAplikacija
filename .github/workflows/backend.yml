@@ -1,0 +1,37 @@
+name: Backend CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code from GitHub repository
+        uses: actions/checkout@v4.2.2
+
+      - name: Prepare environment
+        uses: actions/setup-python@v5.3.0
+        with:
+          python-version: 3.12
+
+      - name: Install dependencies
+        run: |
+          cd backend
+          pip install -r requirements.txt
+
+      - name: Run tests
+        run: |
+          cd backend
+          pytest --cov=.
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4.4.3
+        with:
+          name: backend-coverage
+          path: backend/.coverage
