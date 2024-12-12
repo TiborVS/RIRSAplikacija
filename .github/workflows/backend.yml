@@ -29,6 +29,9 @@ jobs:
         run: |
           cd backend
           pytest --cov=.
+        env:
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASS: ${{ secrets.DB_PASS }}
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4.4.3
