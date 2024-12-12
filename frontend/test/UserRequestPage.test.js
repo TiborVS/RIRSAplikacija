@@ -4,7 +4,14 @@
 
 import {render, screen} from '@testing-library/react'
 import '@testing-library/jest-dom'
-import RequestTable from '../src/components/RequestTable'
+import UserRequestPage from '../src/pages/UserRequestPage';
+import { act } from 'react';
+
+global.fetch = jest.fn();
+
+beforeEach(() => {
+    fetch.mockClear();
+})
 
 const requests = [
     {
@@ -33,8 +40,31 @@ const requests = [
     }
 ];
 
-test("renders correctly without users", async () => {
-    render(<RequestTable requests={requests} includeUsers={false}/>);
+test('renders static parts correctly', async () => {
+    fetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => {[]},
+    });
+    render(<UserRequestPage />)
+    expect(screen.getByText("My requests")).toBeInTheDocument();
+    const link = screen.getByRole("link");
+    expect(link).toBeInTheDocument();
+    expect(link).toHaveTextContent("New request");
+    expect(link).toHaveAttribute("href", "new_request.html");
+})
+
+test('renders retrieved request data correctly', async () => {
+    fetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => requests,
+    });
+    await act(() => {
+        render(<UserRequestPage />);
+    });
+
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).toHaveBeenCalledWith("http://localhost:8000/requests");
+
     expect(screen.getByRole("table")).toBeInTheDocument();
     expect(screen.queryAllByRole("columnheader")).toHaveLength(5);
 
@@ -43,19 +73,5 @@ test("renders correctly without users", async () => {
     expect(screen.queryAllByText("Cost")[0]).toBeInTheDocument();
     expect(screen.queryAllByText("Status")[0]).toBeInTheDocument();
 
-    expect(screen.queryAllByRole("row")).toHaveLength(4);
-})
-
-test("renders correctly with users", async () => {
-    render(<RequestTable requests={requests} includeUsers={true}/>);
-    expect(screen.getByRole("table")).toBeInTheDocument();
-    expect(screen.queryAllByRole("columnheader")).toHaveLength(6);
-
-    expect(screen.queryAllByText("User")[0]).toBeInTheDocument();
-    expect(screen.queryAllByText("Title")[0]).toBeInTheDocument();
-    expect(screen.queryAllByText("Description")[0]).toBeInTheDocument();
-    expect(screen.queryAllByText("Cost")[0]).toBeInTheDocument();
-    expect(screen.queryAllByText("Status")[0]).toBeInTheDocument();
-    
     expect(screen.queryAllByRole("row")).toHaveLength(4);
 })

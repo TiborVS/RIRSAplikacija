@@ -5,5 +5,5 @@ import UserRequestPage from './pages/UserRequestPage'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <UserRequestPage />
-  </StrictMode>,
+  </StrictMode>
 )

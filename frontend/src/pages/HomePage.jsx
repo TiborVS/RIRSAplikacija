@@ -1,11 +1,9 @@
-const serviceName = "[Service Name]";
-
-function HomePage() {
+function HomePage({ serviceName }) {
   return (
     <>
     <div id="titleContainer">
         <p id="welcome">Welcome to</p>
-        <p id="title">{serviceName}</p>
+        <p id="title">{serviceName || "[Service Name]"}</p>
     </div>
     <div id="homePageButtons">
         <button className="login">

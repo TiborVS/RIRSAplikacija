@@ -41,7 +41,7 @@ export default function RequestForm({isEditing, editRequestData}) {
 
     return (
         <div id="requestFormContainer">
-            <form id="requestForm" aria-label="Request form" action={requestFormHandler}>
+            <form id="requestForm" aria-label="Request data" action={requestFormHandler}>
                 <label htmlFor="requestFormTitle">Title</label>
                 <input type="text" name="title" id="requestFormTitle" placeholder="Enter the name of the item or service"/> <br />
                 <label htmlFor="requestFormDescription">Description</label>
