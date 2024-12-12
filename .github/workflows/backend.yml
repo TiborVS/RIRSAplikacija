@@ -28,7 +28,7 @@ jobs:
       - name: Run tests
         run: |
           cd backend
-          pytest --cov=.
+          pytest --cov --cov-report=html:coverage_report
         env:
           DB_USER: ${{ secrets.DB_USER }}
           DB_PASS: ${{ secrets.DB_PASS }}
@@ -37,4 +37,4 @@ jobs:
         uses: actions/upload-artifact@v4.4.3
         with:
           name: backend-coverage
-          path: backend/.coverage
+          path: backend/coverage_report
