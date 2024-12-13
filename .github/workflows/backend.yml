@@ -32,6 +32,7 @@ jobs:
         env:
           DB_USER: ${{ secrets.DB_USER }}
           DB_PASS: ${{ secrets.DB_PASS }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4.4.3
