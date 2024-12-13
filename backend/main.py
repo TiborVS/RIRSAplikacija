@@ -161,7 +161,7 @@ async def create_user(user: User):
             "iat": datetime.now(tz=timezone.utc),
             "exp": datetime.now(tz=timezone.utc) + timedelta(weeks=1)
         }, jwt_secret)
-        return {"_id": str(result.inserted_id), "token": token}
+        return {"_id": str(result.inserted_id), "token": token, "username": user_dict["username"]}
     else:
         raise HTTPException(status_code=500, detail="Error writing to database")
     
@@ -217,7 +217,10 @@ async def login_user(user: User):
             "iat": datetime.now(tz=timezone.utc),
             "exp": datetime.now(tz=timezone.utc) + timedelta(weeks=1)
             }, jwt_secret)
-            return {"token": token}
+            return {
+                "token": token,
+                "username": user_dict["username"]
+            }
         else:
             raise HTTPException(status_code=401, detail="Invalid password")
     else:

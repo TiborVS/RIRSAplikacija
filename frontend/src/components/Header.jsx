@@ -1,7 +1,9 @@
 export default function Header({siteTitle, username, isAdmin}) {
 
     function logOutClickHandler() {
-        window.alert("Log out button pressed!");
+        localStorage.removeItem("token");
+        localStorage.removeItem("username");
+        window.location.replace("/");
     }
     
     return(

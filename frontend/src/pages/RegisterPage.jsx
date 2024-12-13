@@ -47,7 +47,8 @@ function RegisterPage() {
             }).then(async (res) => {
                 const responseBody = await res.json();
                 console.log(responseBody);
-                localStorage.setItem("token", responseBody.token)
+                localStorage.setItem("token", responseBody.token);
+                localStorage.setItem("username", responseBody.username);
                 window.location.replace("/user_requests.html");
             }).catch((res) => {
                 console.log(res);
