@@ -72,7 +72,7 @@ class User(BaseModel):
     username: str
     password: str
     isAdmin: bool | None = None
-    email: str | None
+    email: str | None = None
 
 
     class Config:
@@ -151,12 +151,13 @@ async def create_user(user: User):
     plain_password = user_dict["password"]
     plain_password = plain_password.encode("utf-8")
     hashed_password = bcrypt.hashpw(plain_password, bcrypt.gensalt())
-    user_dict["password"] = hashed_password
+    user_dict["password"] = hashed_password.decode("utf-8")
     result = await db.users.insert_one(user_dict)
     if result.acknowledged:
         token = jwt.encode({
             "user_id": str(result.inserted_id),
             "username": user_dict["username"],
+            "is_admin": False,
             "iat": datetime.now(tz=timezone.utc),
             "exp": datetime.now(tz=timezone.utc) + timedelta(weeks=1)
         }, jwt_secret)
@@ -175,15 +176,23 @@ async def read_user(user_id: str):
     else:
         raise HTTPException(status_code=404, detail="User not found")
 
-# Update a User
+# Update a User - CURRENTLY DOES NOT CHECK PRIVILEGES FOR UPDATE, I.E. ANYONE CAN CHANGE ADMIN STATUS OR EMAIL OF ANY USER BY ID
 @app.put("/users/{user_id}")
 async def update_user(user_id: str, updated_user: User):
     updated_user_dict = updated_user.model_dump(by_alias=True, exclude_unset=True)
-    result = await db.users.update_one({"_id": ObjectId(user_id)}, {"$set": updated_user_dict})
-    if result.modified_count == 1:
-        return {"message": "User updated successfully"}
+    # make sure one of the editable fields is actually set
+    if updated_user_dict["isAdmin"] == None and updated_user_dict["email"] == None:
+        raise HTTPException(status_code=403, detail="Can only change email or admin status")
     else:
-        raise HTTPException(status_code=404, detail="User not found")
+        # prevent user from updating username or password
+        updated_user_dict.pop("username", None)
+        updated_user_dict.pop("password", None)
+
+        result = await db.users.update_one({"_id": ObjectId(user_id)}, {"$set": updated_user_dict})
+        if result.modified_count == 1:
+            return {"message": "User updated successfully"}
+        else:
+            raise HTTPException(status_code=404, detail="User not found")
 
 # Delete a User
 @app.delete("/users/{user_id}")
@@ -200,10 +209,11 @@ async def login_user(user: User):
     user_dict = user.model_dump(by_alias=True, exclude_unset=True)
     user_in_db = await db.users.find_one({"username": user_dict["username"]})
     if user_in_db:
-        if bcrypt.checkpw(user_dict["password"], user_in_db["password"]):
+        if bcrypt.checkpw(user_dict["password"].encode("utf-8"), user_in_db["password"].encode("utf-8")):
             token = jwt.encode({
             "user_id": str(user_in_db["_id"]),
             "username": user_dict["username"],
+            "is_admin": user_in_db["isAdmin"],
             "iat": datetime.now(tz=timezone.utc),
             "exp": datetime.now(tz=timezone.utc) + timedelta(weeks=1)
             }, jwt_secret)
