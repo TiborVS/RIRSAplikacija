@@ -1,6 +1,6 @@
 export default function RequestTable({ requests, includeUsers }) {
     const requestEntries = requests.map(request => {
-        return <tr key={request.id} className="requestRow">
+        return <tr key={request._id} className="requestRow">
             {includeUsers && <td className="user">{request.user}</td>}
             <td className={"title" + (includeUsers ? " withUser" : "")}>{request.title}</td>
             <td className={"description" + (includeUsers ? " withUser" : "")}>{request.description}</td>
