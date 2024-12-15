@@ -31,7 +31,7 @@ jobs:
       - name: Install dependencies # conditional install depending on if the venv folder was retrieved from cache or must be newly created
         run: |
           cd backend
-          if [ ! -d "venv"]; then
+          if [ ! -d "venv" ]; then
             python -m venv venv
           fi
           source venv/bin/activate
@@ -72,7 +72,7 @@ jobs:
       - name: Install dependencies # conditional install depending on if the venv folder was retrieved from cache or must be newly created
         run: |
           cd backend
-          if [ ! -d "venv"]; then
+          if [ ! -d "venv" ]; then
             python -m venv venv
           fi
           source venv/bin/activate
