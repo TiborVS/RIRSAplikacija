@@ -9,6 +9,41 @@ on:
       - main
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code from GitHub repository
+        uses: actions/checkout@v4.2.2
+
+      - name: Prepare environment (Node.js)
+        uses: actions/setup-node@v4.1.0
+        with:
+          node-version: 22.11
+
+      - name: Cache node_modules
+        uses: actions/cache@v4.2.0
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.os }}-frontend-${{ hashFiles('frontend/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-frontend-
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm ci
+
+      - name: Build app
+        run: |
+          cd frontend
+          npm run build
+
+      - name: Upload build result
+        uses: actions/upload-artifact@v4.4.3
+        with:
+          name: frontend-build
+          path: frontend/dist
+          
   test:
     runs-on: ubuntu-latest
     steps:
@@ -20,10 +55,18 @@ jobs:
         with:
           node-version: 22.11
 
+      - name: Cache node_modules
+        uses: actions/cache@v4.2.0
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.os }}-frontend-${{ hashFiles('frontend/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-frontend-
+
       - name: Install dependencies
         run: |
           cd frontend
-          npm ci
+          npm install
 
       - name: Run tests
         run: |
