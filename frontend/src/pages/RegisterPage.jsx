@@ -11,11 +11,6 @@ function RegisterPage() {
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-    function clearInputs() {
-        setUsername("");
-        setEmail("");
-    }
-
     function submitHandler(event) {
         event.preventDefault();
         setError("");
@@ -76,11 +71,11 @@ function RegisterPage() {
                     </tr>
                     <tr>
                         <td><label htmlFor="password">Password</label></td>
-                        <td><input type="password" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)}/></td>
+                        <td><input type="password" name="password" id="password"  data-testid="password" value={password} onChange={(e) => setPassword(e.target.value)}/></td>
                     </tr>
                     <tr>
                         <td><label htmlFor="repeatPassword">Repeat password</label></td>
-                        <td><input type="password" name="repeatPassword" id="repeatPassword" value={repeatPassword} onChange={(e) => setRepeatPassword(e.target.value)}/></td>
+                        <td><input type="password" name="repeatPassword" id="repeatPassword" data-testid="repeatPassword" value={repeatPassword} onChange={(e) => setRepeatPassword(e.target.value)}/></td>
                     </tr>
                     <tr>
                         <td></td>

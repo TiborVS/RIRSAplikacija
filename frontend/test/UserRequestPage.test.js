@@ -8,14 +8,25 @@ import UserRequestPage from '../src/pages/UserRequestPage';
 import { act } from 'react';
 
 global.fetch = jest.fn();
+Storage.prototype.setItem = jest.fn();
+Storage.prototype.getItem = jest.fn((key) => {
+    if (key == "token") {
+        return "abc.fake.token";
+    }
+    else if (key == "username") {
+        return "MockUsername";
+    }
+    else return undefined;
+});
 
 beforeEach(() => {
     fetch.mockClear();
+    Storage.prototype.getItem.mockClear();
 })
 
 const requests = [
     {
-        id: 1,
+        _id: 1,
         title: "Request 1",
         description: "Description for request 1",
         cost: 100,
@@ -23,7 +34,7 @@ const requests = [
         user: "User123"
     },
     {
-        id: 2,
+        _id: 2,
         title: "Request 2",
         description: "Description for request 2",
         cost: 200,
@@ -31,7 +42,7 @@ const requests = [
         user: "User123"
     },
     {
-        id: 3,
+        _id: 3,
         title: "Request 3",
         description: "Description for request 3",
         cost: 300,
@@ -46,6 +57,7 @@ test('renders static parts correctly', async () => {
         json: async () => {[]},
     });
     render(<UserRequestPage />)
+    expect(screen.getByText("MockUsername")).toBeInTheDocument();
     expect(screen.getByText("My requests")).toBeInTheDocument();
     const link = screen.getByRole("link");
     expect(link).toBeInTheDocument();
@@ -63,7 +75,7 @@ test('renders retrieved request data correctly', async () => {
     });
 
     expect(fetch).toHaveBeenCalledTimes(1);
-    expect(fetch).toHaveBeenCalledWith("http://localhost:8000/requests");
+    expect(fetch).toHaveBeenCalledWith("http://localhost:8000/requests", {"headers": {"Accept": "application/json", "Authorization": "Bearer abc.fake.token"}});
 
     expect(screen.getByRole("table")).toBeInTheDocument();
     expect(screen.queryAllByRole("columnheader")).toHaveLength(5);
