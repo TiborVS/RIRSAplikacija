@@ -81,6 +81,7 @@ jobs:
       - name: Run tests
         run: |
           cd backend
+          source venv/bin/activate
           pytest --cov --cov-report=html:coverage_report
         env:
           DB_USER: ${{ secrets.DB_USER }}
