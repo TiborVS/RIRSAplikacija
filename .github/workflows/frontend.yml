@@ -45,6 +45,7 @@ jobs:
           path: frontend/dist
           
   test:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code from GitHub repository
