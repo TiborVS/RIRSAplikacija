@@ -9,7 +9,48 @@ on:
       - main
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code from Github repository
+        uses: actions/checkout@v4.2.2
+
+      - name: Prepare environment (Python)
+        uses: actions/setup-python@v5.3.0
+        with:
+          python-version: 3.12
+
+      - name: Cache dependencies (venv)
+        uses: actions/cache@v4.2.0
+        with:
+          path: backend/venv
+          key: ${{ runner.os }}-backend-${{ hashFiles('backend/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-backend-
+
+      - name: Install dependencies # conditional install depending on if the venv folder was retrieved from cache or must be newly created
+        run: |
+          cd backend
+          if [ ! -d "venv"]; then
+            python -m venv venv
+          fi
+          source venv/bin/activate
+          pip install -r requirements.txt
+
+      - name: Build application # really just uploads requirements and main.py files
+        run: |
+          cd backend
+          mkdir dist
+          cp main.py requirements.txt dist
+
+      - name: Upload build folder
+        uses: actions/upload-artifact@v4.4.3
+        with:
+          name: backend-build
+          path: backend/dist
+          
   test:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code from GitHub repository
@@ -20,9 +61,21 @@ jobs:
         with:
           python-version: 3.12
 
-      - name: Install dependencies
+      - name: Cache dependencies (venv)
+        uses: actions/cache@v4.2.0
+        with:
+          path: backend/venv
+          key: ${{ runner.os }}-backend-${{ hashFiles('backend/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-backend-
+
+      - name: Install dependencies # conditional install depending on if the venv folder was retrieved from cache or must be newly created
         run: |
           cd backend
+          if [ ! -d "venv"]; then
+            python -m venv venv
+          fi
+          source venv/bin/activate
           pip install -r requirements.txt
 
       - name: Run tests
