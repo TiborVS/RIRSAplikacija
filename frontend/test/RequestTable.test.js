@@ -8,7 +8,7 @@ import RequestTable from '../src/components/RequestTable'
 
 const requests = [
     {
-        id: 1,
+        _id: 1,
         title: "Request 1",
         description: "Description for request 1",
         cost: 100,
@@ -16,7 +16,7 @@ const requests = [
         user: "User123"
     },
     {
-        id: 2,
+        _id: 2,
         title: "Request 2",
         description: "Description for request 2",
         cost: 200,
@@ -24,7 +24,7 @@ const requests = [
         user: "User123"
     },
     {
-        id: 3,
+        _id: 3,
         title: "Request 3",
         description: "Description for request 3",
         cost: 300,

@@ -61,32 +61,34 @@ function RegisterPage() {
         <div id="registerFormContainer">
             <form id="registerForm" onSubmit={submitHandler}>
                 <table id="registerFormTable">
-                    <tr>
-                        <td><label htmlFor="username">Username</label></td>
-                        <td><input type="text" name="username" id="username" value={username} onChange={(e) => setUsername(e.target.value)}/></td>
-                    </tr>
-                    <tr>
-                        <td><label htmlFor="email">E-mail</label></td>
-                        <td><input type="text" name="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} /></td>
-                    </tr>
-                    <tr>
-                        <td><label htmlFor="password">Password</label></td>
-                        <td><input type="password" name="password" id="password"  data-testid="password" value={password} onChange={(e) => setPassword(e.target.value)}/></td>
-                    </tr>
-                    <tr>
-                        <td><label htmlFor="repeatPassword">Repeat password</label></td>
-                        <td><input type="password" name="repeatPassword" id="repeatPassword" data-testid="repeatPassword" value={repeatPassword} onChange={(e) => setRepeatPassword(e.target.value)}/></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>
-                            <button className="confirmRegister" type="submit">Register</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td id="registerError">{error}</td>
-                    </tr>
+                    <tbody>
+                        <tr>
+                            <td><label htmlFor="username">Username</label></td>
+                            <td><input type="text" name="username" id="username" value={username} onChange={(e) => setUsername(e.target.value)}/></td>
+                        </tr>
+                        <tr>
+                            <td><label htmlFor="email">E-mail</label></td>
+                            <td><input type="text" name="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} /></td>
+                        </tr>
+                        <tr>
+                            <td><label htmlFor="password">Password</label></td>
+                            <td><input type="password" name="password" id="password"  data-testid="password" value={password} onChange={(e) => setPassword(e.target.value)}/></td>
+                        </tr>
+                        <tr>
+                            <td><label htmlFor="repeatPassword">Repeat password</label></td>
+                            <td><input type="password" name="repeatPassword" id="repeatPassword" data-testid="repeatPassword" value={repeatPassword} onChange={(e) => setRepeatPassword(e.target.value)}/></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <button className="confirmRegister" type="submit">Register</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td id="registerError">{error}</td>
+                        </tr>
+                    </tbody>
                 </table>
             </form>
         </div>
