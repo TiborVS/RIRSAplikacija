@@ -1,9 +1,9 @@
 from datetime import datetime, timezone, timedelta
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Header
 from pydantic import BaseModel, Field
 from motor.motor_asyncio import AsyncIOMotorClient
 from bson import ObjectId
-from typing import Optional
+from typing import Annotated
 from fastapi.middleware.cors import CORSMiddleware
 from os import environ
 from dotenv import load_dotenv
@@ -59,8 +59,8 @@ class Request(BaseModel):
     title: str
     description: str
     cost: int
-    status: str
-    user_id: str
+    status: str | None = None
+    user_id: str | None = None
 
 
     class Config:
@@ -84,19 +84,38 @@ class User(BaseModel):
 
 # Create a Request
 @app.post("/requests/")
-async def create_request(request: Request):
+async def create_request(request: Request, authorization: Annotated[str, Header()]):
     request_dict = request.model_dump(by_alias=True, exclude_unset=True)
+    request_dict["status"] = "Pending"
+    token = authorization.split()[1]
+    try:
+        decoded_token = jwt.decode(token, jwt_secret, options={"require": ["iat", "exp"]}, algorithms="HS256")
+        request_dict["user_id"] = decoded_token["user_id"]
+    except jwt.InvalidTokenError:
+        raise HTTPException(status_code=403, detail="Invalid token")
     result = await db.request.insert_one(request_dict)
     return {"_id": str(result.inserted_id)}
 
-# Get all Requests
+# Get all Requests (of requesting user, or all users if admin)
 @app.get("/requests/")
-async def list_requests():
-    requests = await db.request.find({}).to_list()
+async def list_requests(authorization: Annotated[str, Header()]):
+    token = authorization.split()[1]
+    try:
+        decoded_token = jwt.decode(token, jwt_secret, options={"require": ["iat", "exp"]}, algorithms="HS256")
+    except jwt.InvalidTokenError:
+        raise HTTPException(status_code=403, detail="Invalid token")
+    is_admin = decoded_token["is_admin"]
+    user_id = decoded_token["user_id"]
+    if is_admin:
+        requests = await db.request.find({}).to_list()
+    else:
+        requests = await db.request.find({"user_id": user_id}).to_list()
     if requests:
         for request in requests:
             request["_id"] = str(request["_id"])
         return requests
+    elif len(requests) == 0:
+        return []
     else:
         raise HTTPException(status_code=500, detail="Cannot get requests")
 
