@@ -5,6 +5,8 @@ import asyncio
 from motor.motor_asyncio import AsyncIOMotorClient
 from bson import ObjectId
 from dotenv import load_dotenv
+import jwt
+from datetime import datetime, timezone, timedelta
 
 load_dotenv()
 
@@ -17,10 +19,13 @@ if __name__ == "__main__":
 
 db_user = environ.get("DB_USER", False)
 db_pass = environ.get("DB_PASS", False)
+jwt_secret = environ.get("JWT_SECRET", False)
 if not db_user:
     raise ValueError("DB_USER environment variable must be set.")
 if not db_pass:
-    raise ValueError("DB_PASS envrionment variable must be set.") 
+    raise ValueError("DB_PASS envrionment variable must be set.")
+if not jwt_secret:
+    raise ValueError("JWT_SECRET envrionment variable must be set.")
 db_conn_string = f"mongodb+srv://{db_user}:{db_pass}@ligilegend.eh2nx.mongodb.net/?retryWrites=true&w=majority&appName=ligilegend"
 
 @pytest.fixture(scope="module")
@@ -28,8 +33,29 @@ def client():
     with TestClient(app) as test_client:
         yield test_client
 
+@pytest.fixture(scope="module")
+def user_token():
+    return jwt.encode({
+            "user_id": "675c400123d5be3b17ea2809",
+            "username": "User 2",
+            "is_admin": False,
+            "iat": datetime.now(tz=timezone.utc),
+            "exp": datetime.now(tz=timezone.utc) + timedelta(weeks=1)
+    }, jwt_secret)
+
+@pytest.fixture(scope="module")
+def admin_token():
+    return jwt.encode({
+            "user_id": "675c3c1fef3d368066c95052",
+            "username": "User 1",
+            "is_admin": True,
+            "iat": datetime.now(tz=timezone.utc),
+            "exp": datetime.now(tz=timezone.utc) + timedelta(weeks=1)
+    }, jwt_secret)
+
 class TestRequestFunctions:
-    def test_get_requests(self, client):
+    def test_get_requests_for_user(self, client, user_token):
+        client.headers["Authorization"] = f"Bearer {user_token}"
         response = client.get("/requests")
         assert response.status_code == 200
         assert len(response.json()) == 3
@@ -40,8 +66,26 @@ class TestRequestFunctions:
             assert "cost" in doc
             assert "status" in doc
             assert "user_id" in doc
+        client.headers = None
 
-            
+    def test_get_request_for_admin(self, client, admin_token):
+        client.headers["Authorization"] = f"Bearer {admin_token}"
+        response = client.get("/requests")
+        assert response.status_code == 200
+        assert len(response.json()) == 4
+        for doc in response.json():
+            assert "_id" in doc
+            assert "title" in doc
+            assert "description" in doc
+            assert "cost" in doc
+            assert "status" in doc
+            assert "user_id" in doc
+        client.headers = None
+
+    def test_get_request_unauthorised(self, client):
+        response = client.get("/requests")
+        assert response.status_code == 422
+
     def test_get_request_by_id(self, client):
         response = client.get("/requests/674dddb40c58e88eedadfa20")
         assert response.status_code == 200
@@ -51,25 +95,35 @@ class TestRequestFunctions:
         assert doc["description"] == "Obnova strehe stare zgradbe"
         assert doc["cost"] == 15000
         assert doc["status"] == "pending"
-        assert doc["user_id"] == "1"
+        assert doc["user_id"] == "675c400123d5be3b17ea2809"
 
     @pytest.mark.asyncio
-    async def test_post_request(self, client):
+    async def test_post_request(self, client, user_token):
         doc = {
             "title": "Pytest Test Request",
             "description": "pytest test request",
-            "cost": 5000,
-            "status": "pending",
-            "user_id": "1"
+            "cost": 5000
         }
+        client.headers["Authorization"] = f"Bearer {user_token}"
         response = client.post("/requests/", json=doc)
         assert response.status_code == 200
         assert "_id" in response.json()
+
+        client.headers = None
 
         cleanup_client = AsyncIOMotorClient(db_conn_string)
         db = cleanup_client.test_tibor
         db_response = await db.request.delete_one({"description": "pytest test request"})
         assert db_response.deleted_count == 1
+
+    def test_post_request_unauthorised(self, client):
+        doc = {
+            "title": "Pytest Test Request",
+            "description": "pytest test request",
+            "cost": 5000
+        }
+        response = client.post("/requests/", json=doc)
+        assert response.status_code == 422
 
     @pytest.mark.asyncio
     async def test_put_request(self, client):
@@ -78,7 +132,7 @@ class TestRequestFunctions:
             "description": "edited",
             "cost": 15000,
             "status": "pending",
-            "user_id": "1"
+            "user_id": "675c400123d5be3b17ea2809"
         }
         response = client.put("/requests/674dddb40c58e88eedadfa20", json=doc)
         assert response.status_code == 200
