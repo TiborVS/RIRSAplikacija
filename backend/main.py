@@ -31,7 +31,8 @@ if (environ.get("TEST", "false") == "true"):
     db = client.test_tibor
 
 origins = [
-    "http://localhost:5173"
+    "http://localhost:5173",
+    "http://localhost:3000"
 ]
 
 app.add_middleware(

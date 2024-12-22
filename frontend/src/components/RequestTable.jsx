@@ -12,7 +12,7 @@ export default function RequestTable({ requests, includeUsers }) {
             </td>
             <td className="edit">
                 <a className="edit" href={"new_request.html"}>
-                    <img className="edit" src="src/assets/edit.svg"></img>
+                    <img className="edit" src="edit.svg"></img>
                 </a>
             </td>
         </tr>
