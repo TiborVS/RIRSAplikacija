@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "jest",
-    "serve": "node server/server.js"
+    "serve": "cd server && node server.js"
   },
   "dependencies": {
     "react": "^19.0.0-rc-2ec26bc4-20241111",

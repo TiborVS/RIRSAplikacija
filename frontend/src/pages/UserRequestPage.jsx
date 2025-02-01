@@ -18,7 +18,7 @@ function UserRequestPage() {
   }
 
   useEffect(() => {
-    fetch("http://localhost:8000/requests",{
+    fetch(import.meta.env.VITE_API_LOCATION + "/requests",{
       headers: {
         'Accept': 'application/json',
         'Authorization': 'Bearer ' + token

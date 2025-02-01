@@ -32,7 +32,7 @@ function RegisterPage() {
                 password: password,
                 email: email
             }
-            fetch("http://localhost:8000/users/",{
+            fetch(import.meta.env.VITE_API_LOCATION + "/users/",{
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'

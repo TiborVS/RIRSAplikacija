@@ -17,5 +17,6 @@ export default defineConfig({
     },
     outDir: 'server/dist',
     emptyOutDir: true
-  }
+  },
+  base: "./"
 })

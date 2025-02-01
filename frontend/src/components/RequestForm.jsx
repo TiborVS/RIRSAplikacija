@@ -33,7 +33,7 @@ export default function RequestForm({isEditing, editRequestData}) {
                 description: description,
                 cost: cost
             }
-            fetch("http://localhost:8000/requests", {
+            fetch(import.meta.env.VITE_API_LOCATION + "/requests", {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
