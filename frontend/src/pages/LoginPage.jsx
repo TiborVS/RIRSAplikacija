@@ -21,7 +21,7 @@ function LoginPage() {
                 username: username,
                 password: password
             }
-            fetch(import.meta.env.VITE_API_LOCATION + "/users/login/",{
+            fetch(process.env.VITE_API_LOCATION + "/users/login/",{
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
