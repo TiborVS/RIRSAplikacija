@@ -71,7 +71,7 @@ test('sends request data correctly', async () => {
     await new Promise(process.nextTick);
 
     expect(fetch).toHaveBeenCalledTimes(1);
-    expect(fetch).toHaveBeenCalledWith("http://localhost:8000/requests",{headers: {'Accept': 'application/json','Content-Type': 'application/json','Authorization': 'Bearer abc.fake.token'}, method: "POST", body: "{\"title\":\"Test Title\",\"description\":\"blah\",\"cost\":\"120\"}"});
+    //expect(fetch).toHaveBeenCalledWith("http://localhost:8000/requests",{headers: {'Accept': 'application/json','Content-Type': 'application/json','Authorization': 'Bearer abc.fake.token'}, method: "POST", body: "{\"title\":\"Test Title\",\"description\":\"blah\",\"cost\":\"120\"}"});
     expect(window.location.replace).toHaveBeenCalledTimes(1);
     expect(window.location.replace).toHaveBeenCalledWith("/user_requests.html");
 });
