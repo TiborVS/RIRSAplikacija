@@ -32,7 +32,8 @@ if (environ.get("TEST", "false") == "true"):
 
 origins = [
     "http://localhost:5173",
-    "http://localhost:3000"
+    "http://localhost:3000",
+    "http://63.177.188.51"
 ]
 
 app.add_middleware(
