@@ -4,6 +4,6 @@ import HomePage from './pages/HomePage'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <HomePage serviceName={"[Service Name]"} />
+    <HomePage serviceName={"OurRequest"} />
   </StrictMode>,
 )
