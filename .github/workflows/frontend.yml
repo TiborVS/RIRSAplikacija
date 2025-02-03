@@ -95,6 +95,8 @@ jobs:
     steps:
      - name: Checkout code from GitHub repository
        uses: actions/checkout@v4.2.2
+       with:
+         fetch-depth: 0
      - name: SonarQube Scan
        uses: SonarSource/sonarqube-scan-action@v4
        with:
@@ -103,7 +105,7 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   dockerize-dev:
-    needs: test
+    needs: sonarqube-scan
     runs-on: ubuntu-latest
     environment: Development
     if: github.ref == 'refs/heads/main'
