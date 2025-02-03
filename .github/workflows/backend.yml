@@ -125,7 +125,7 @@ jobs:
           path: backend/coverage.xml
       
       - name: Test for coverage presence (TEMP)
-        run: ls backend
+        run: cat backend/coverage.xml
 
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v4
