@@ -1,8 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 :root {
-    /*--primary: #0663AF; */
-    --primary: #1ecc5b;
+    --primary: #0663AF;
     --text-on-primary: #FFFFFF;
     --red: #B91111;
     --red-hover: #c83d3d;
