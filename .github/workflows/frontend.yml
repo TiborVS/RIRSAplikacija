@@ -179,7 +179,6 @@ jobs:
   deploy-to-ec2:
     needs: dockerize-prod
     runs-on: ubuntu-latest
-    environment: Production
     if: github.ref == 'refs/heads/production'
 
     steps:
