@@ -113,3 +113,11 @@ jobs:
 
       - name: Push image to Docker Hub
         run: docker push ${{ secrets.DOCKER_USERNAME }}/rirs-backend
+  
+  deploy-to-ec2:
+    needs: dockerize
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger redeploy webhook on EC2 instance
+        run: curl http://${{ secrets.EC2_PUBLIC_IP }}:9000/hooks/redeploy-backend
