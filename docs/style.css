@@ -1,6 +1,7 @@
 h1 {
-    color: rgb(241, 233, 223);
+    color: white;
     text-align: center;
+    font-weight: lighter;
 }
 
 h1, h2, p {
@@ -8,12 +9,12 @@ h1, h2, p {
 }
 
 body {
-    background-color: rgb(210, 193, 171);
+    background-color: rgb(246, 251, 255);
     margin: 0;
 }
 
 #nav {
-    background-color: rgb(59, 31, 12);
+    background-color: #0663AF;
     padding: 10px;
     margin-bottom: 7%;
 }
@@ -21,8 +22,8 @@ body {
 #text {
     width: 35%;
     margin: auto;
-    background-color: rgba(59, 31, 12, 0.613);
-    color: rgb(216, 211, 204);
+    background-color: #595151;
+    color: rgb(227, 233, 240);
     border-radius: 5px;
     padding: 15px;
     text-align: center;
@@ -37,9 +38,14 @@ body {
 h2 {
     margin-top: 70px;
     margin-bottom: 35px;
+    color:#0a2a43;
 }
 
 .imena {
-    color:rgb(94, 63, 42);
+    color:#374754;
     letter-spacing: -1px;
+}
+
+#seznam {
+    margin-bottom: 50px;
 }
