@@ -87,6 +87,21 @@ jobs:
           name: frontend-coverage
           path: frontend/coverage
 
+  sonarqube-scan:
+    needs: test
+    runs-on: ubuntu-latest
+    environment: Development
+    if: github.ref == 'refs/heads/main'
+    steps:
+     - name: Checkout code from GitHub repository
+       uses: actions/checkout@v4.2.2
+     - name: SonarQube Scan
+       uses: SonarSource/sonarqube-scan-action@v4
+       with:
+         projectBaseDir: frontend
+       env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
   dockerize-dev:
     needs: test
     runs-on: ubuntu-latest
