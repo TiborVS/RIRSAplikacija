@@ -1,0 +1,45 @@
+h1 {
+    color: rgb(241, 233, 223);
+    text-align: center;
+}
+
+h1, h2, p {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body {
+    background-color: rgb(210, 193, 171);
+    margin: 0;
+}
+
+#nav {
+    background-color: rgb(59, 31, 12);
+    padding: 10px;
+    margin-bottom: 7%;
+}
+
+#text {
+    width: 35%;
+    margin: auto;
+    background-color: rgba(59, 31, 12, 0.613);
+    color: rgb(216, 211, 204);
+    border-radius: 5px;
+    padding: 15px;
+    text-align: center;
+}
+
+#team, #seznam {
+    width: 50%;
+    margin: auto;
+    text-align: center;
+}
+
+h2 {
+    margin-top: 70px;
+    margin-bottom: 35px;
+}
+
+.imena {
+    color:rgb(94, 63, 42);
+    letter-spacing: -1px;
+}
